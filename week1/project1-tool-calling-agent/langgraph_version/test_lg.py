@@ -12,13 +12,13 @@ llm = ChatGroq(model ="llama-3.3-70b-versatile")          #the chatgroq looks up
 def log_session(topic: str, duration_minutes: int):
     """Logs a study session, but only when the user describes actively studying a computer science or mathematics topic (e.g. DSA, algorithms, graph theory).Do NOT call this for physical activities like cycling, or statements that don't describe any study activity, like mentioning where someone lives."""
     date = datetime.now().isoformat() 
-    if os.path.exists("sessions.json"):          
-        with open("sessions.json", "r")as f:  
+    if os.path.exists("../sessions.json"):          
+        with open("../sessions.json", "r")as f:  
             sessions = json.load(f)   
     else:
         sessions = []
     sessions.append({"topic" : topic, "duration_minutes" :duration_minutes, "date": date})
-    with open('sessions.json', 'w') as f:
+    with open('../sessions.json', 'w') as f:
         json.dump(sessions,f)
 
 #print(log_session.name)
