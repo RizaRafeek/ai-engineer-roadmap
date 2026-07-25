@@ -11,8 +11,8 @@ initial_state = {
 research_q = {
     "user_message": "What is the current inflation rate in dubai?"
 }
-data_analysis_q = {
-    "user_message": "Calculate the average of these numbers: 4, 8, 15, 16, 23, 42"
+q = {
+    "user_message": "What's the best Python library for scraping live stock prices?"
 }
 
 #routing_decision = router_node(initial_state)
@@ -43,5 +43,5 @@ graph.add_edge("data_analysis", END)
 
 app = graph.compile()
 
-result = app.invoke(data_analysis_q)
+result = app.invoke(q)
 print("full graph result:", result)

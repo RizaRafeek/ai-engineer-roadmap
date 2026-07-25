@@ -21,6 +21,7 @@ def data_analysis_specialist_node(state: RouterState):
     Request: {state['user_message']}
     """
     response = llm_with_tools.invoke(prompt)
+    print(response.tool_calls)
     if response.tool_calls:
         result = calculate.invoke(response.tool_calls[0]["args"])             #in @tool the parameter value(expression) gets stored in args
         final_prompt = f"""
