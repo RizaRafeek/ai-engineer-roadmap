@@ -1,7 +1,9 @@
-from nodes.router import router_node
+from nodes.router import router_node ,next_node
 from nodes.code_specialist import code_specialist_node
 from nodes.research_specialist import research_specialist_node
 from nodes.data_analysis_specialist import data_analysis_specialist_node
+from langgraph.graph import StateGraph, END
+from state import RouterState
 
 initial_state = {
     "user_message": "Write a Python function that checks if a string is a palindrome"
@@ -19,8 +21,27 @@ data_analysis_q = {
 #code_answer = code_specialist_node(initial_state)
 #print("code final answer:", code_answer)
 
-research_answer = research_specialist_node(research_q)
-print("research final answer:", research_answer)
+#research_answer = research_specialist_node(research_q)
+#print("research final answer:", research_answer)
 
-data_analysis_answer = data_analysis_specialist_node(data_analysis_q)
-print("data analysis final answer:" ,data_analysis_answer)
+#data_analysis_answer = data_analysis_specialist_node(data_analysis_q)
+#print("data analysis final answer:" ,data_analysis_answer)
+
+graph = StateGraph(RouterState)
+graph.add_node("router", router_node)
+graph.add_node("code", code_specialist_node)
+graph.add_node("research", research_specialist_node)
+graph.add_node("data_analysis", data_analysis_specialist_node)
+
+graph.set_entry_point("router")
+
+graph.add_conditional_edges("router", next_node)
+
+graph.add_edge("code", END)
+graph.add_edge("research", END)
+graph.add_edge("data_analysis", END)
+
+app = graph.compile()
+
+result = app.invoke(data_analysis_q)
+print("full graph result:", result)
